@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 
 public class AdjustSecondRepository {
 
+    public static final String SECONDS = "seconds";
     public final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
     public final HashSet<Integer> set = new HashSet<>();
 
@@ -81,7 +82,7 @@ public class AdjustSecondRepository {
     @NonNull
     private NetworkApiCall getNetworkApiCall(SecondCallback asyncResponse, int queueValue) {
         HashMap<String, String> requestData = new HashMap<>();
-        requestData.put("seconds", String.valueOf(queueValue));
+        requestData.put(SECONDS, String.valueOf(queueValue));
         return new NetworkApiCall(NetworkUtil.BaseUrl, requestData, new HTTPCallback() {
             @Override
             public void processFinish(String response) {

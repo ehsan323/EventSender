@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
+    public static final String QUEUED_VALUES = "queuedValues";
     private MainContract.View mView;
     public final HashSet<String> sentSeconds = new HashSet<>();
     public final AdjustSecondRepository repository = new AdjustSecondRepository();
@@ -92,7 +93,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
     @Override
     public void cacheQueueValues(SharedPreferences sharedPreferences) {
         HashSet<Integer> list = new HashSet<>(repository.queue);
-        sharedPreferences.edit().putString("queuedValues", AdjustUtil.covertIntegerListToString(list)).apply();
+        sharedPreferences.edit().putString(QUEUED_VALUES, AdjustUtil.covertIntegerListToString(list)).apply();
     }
 
 
@@ -103,7 +104,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
      */
     @Override
     public void loadAndHandleCachedQueues(SharedPreferences sharedPreferences) {
-        HashSet<Integer> values = AdjustUtil.convertStringToIntegerList(sharedPreferences.getString("queuedValues", ""));
+        HashSet<Integer> values = AdjustUtil.convertStringToIntegerList(sharedPreferences.getString(QUEUED_VALUES, ""));
         if (values.size() > 0) {
             sendSecondToServer(AdjustUtil.convertIntegers(values));
         } else {
