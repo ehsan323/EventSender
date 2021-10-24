@@ -28,7 +28,8 @@ public class AdjustSecondRepository {
 
     /**
      * Handle one value or values
-     * @param values a list of values
+     *
+     * @param values        a list of values
      * @param asyncResponse callback
      */
     public void sendSecondEvent(Integer[] values, SecondCallback asyncResponse) {
@@ -44,13 +45,14 @@ public class AdjustSecondRepository {
 
     /**
      * check queue and send data to server
+     *
      * @param asyncResponse Callback
      */
     public void sendEventToServer(SecondCallback asyncResponse) {
         if (queue.size() > 0) {
             try {
-                new Handler().postDelayed(() -> getNetworkApiCall(asyncResponse,
-                        queue.remove()).doInWorkerThread(), 5000);
+//                new Handler().postDelayed(() -> getNetworkApiCall(asyncResponse, queue.remove()).doInWorkerThread(), 5000);
+                getNetworkApiCall(asyncResponse, queue.remove()).doInWorkerThread();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -59,6 +61,7 @@ public class AdjustSecondRepository {
 
     /**
      * Check and add value to queue
+     *
      * @param second value
      */
     private void addSecondToQueue(Integer second) {
@@ -71,8 +74,9 @@ public class AdjustSecondRepository {
 
     /**
      * Network Call
+     *
      * @param asyncResponse CallBack
-     * @param queueValue value
+     * @param queueValue    value
      * @return Server Result
      */
     @NonNull
@@ -105,6 +109,7 @@ public class AdjustSecondRepository {
 
     /**
      * Parse Response to Data Model
+     *
      * @param response String response from server
      * @return Model
      * @throws JSONException Exception

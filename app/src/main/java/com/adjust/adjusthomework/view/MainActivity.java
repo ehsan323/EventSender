@@ -73,4 +73,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+    }
 }
