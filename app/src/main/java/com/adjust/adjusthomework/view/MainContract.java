@@ -16,8 +16,6 @@ public interface MainContract {
         void sendSelectedSecond(Integer second);
         void sendSecondToServer(Integer... seconds);
         boolean secondIsValidForSending(int second);
-        void cacheQueueValues(SharedPreferences sharedPreferences);
-        void loadAndHandleCachedQueues(SharedPreferences sharedPreferences);
     }
 
 }
