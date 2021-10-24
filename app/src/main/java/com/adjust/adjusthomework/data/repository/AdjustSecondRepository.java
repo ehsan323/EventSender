@@ -51,7 +51,6 @@ public class AdjustSecondRepository {
     public void sendEventToServer(SecondCallback asyncResponse) {
         if (queue.size() > 0) {
             try {
-//                new Handler().postDelayed(() -> getNetworkApiCall(asyncResponse, queue.remove()).doInWorkerThread(), 5000);
                 getNetworkApiCall(asyncResponse, queue.remove()).doInWorkerThread();
             } catch (Exception e) {
                 e.printStackTrace();
