@@ -57,5 +57,20 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         return progressBar;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (sharedPreferences != null)
+            mPresenter.cacheQueueValues(sharedPreferences);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (sharedPreferences != null){
+            progressBar.setVisibility(View.VISIBLE);
+            mPresenter.loadAndHandleCachedQueues(sharedPreferences);
+        }
+    }
 
 }

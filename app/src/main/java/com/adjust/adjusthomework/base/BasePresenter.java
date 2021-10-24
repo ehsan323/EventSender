@@ -15,5 +15,4 @@ public abstract class BasePresenter<V extends BaseContract.BaseView> implements 
     public void showMessage(String message) {
         getView().showError(message);
     }
-
 }

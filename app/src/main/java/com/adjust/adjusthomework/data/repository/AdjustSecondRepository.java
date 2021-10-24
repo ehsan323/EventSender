@@ -48,8 +48,12 @@ public class AdjustSecondRepository {
      */
     public void sendEventToServer(SecondCallback asyncResponse) {
         if (queue.size() > 0) {
-            new Handler().postDelayed(() -> getNetworkApiCall(asyncResponse,
-                    queue.remove()).doInWorkerThread(), 5000);
+            try {
+                new Handler().postDelayed(() -> getNetworkApiCall(asyncResponse,
+                        queue.remove()).doInWorkerThread(), 5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -106,15 +110,10 @@ public class AdjustSecondRepository {
      * @throws JSONException Exception
      */
     private SecondResponse parseResponse(String response) throws JSONException {
-
         JSONObject responseObject = new JSONObject(response);
         String id = responseObject.getString("id");
         String seconds = responseObject.getString("seconds");
-
-        SecondResponse secondResponse = new SecondResponse();
-        secondResponse.setSeconds(seconds);
-        secondResponse.setId(id);
-        return secondResponse;
+        return new SecondResponse(id, seconds);
     }
 
 }

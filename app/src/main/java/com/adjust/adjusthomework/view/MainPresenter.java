@@ -6,14 +6,18 @@ import com.adjust.adjusthomework.base.BasePresenter;
 import com.adjust.adjusthomework.data.model.SecondResponse;
 import com.adjust.adjusthomework.data.network.SecondCallback;
 import com.adjust.adjusthomework.data.repository.AdjustSecondRepository;
+import com.adjust.adjusthomework.util.AdjustUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
     private MainContract.View mView;
-    private final HashSet<String> sentSeconds = new HashSet<>();
-    private final AdjustSecondRepository repository = new AdjustSecondRepository();
+    public final HashSet<String> sentSeconds = new HashSet<>();
+    public final AdjustSecondRepository repository = new AdjustSecondRepository();
 
 
     public MainPresenter(MainContract.View mView) {
@@ -79,6 +83,34 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
         return sentSeconds.contains(String.valueOf(second));
     }
 
+
+    /**
+     * Cache Queue values
+     *
+     * @param sharedPreferences SharedPreferences
+     */
+    @Override
+    public void cacheQueueValues(SharedPreferences sharedPreferences) {
+        HashSet<Integer> list = new HashSet<>(repository.queue);
+        sharedPreferences.edit().putString("queuedValues", AdjustUtil.covertIntegerListToString(list)).apply();
+    }
+
+
+    /**
+     * load cached values by SharedPreferences
+     *
+     * @param sharedPreferences SharedPreferences
+     */
+    @Override
+    public void loadAndHandleCachedQueues(SharedPreferences sharedPreferences) {
+        HashSet<Integer> values = AdjustUtil.convertStringToIntegerList(sharedPreferences.getString("queuedValues", ""));
+        if (values.size() > 0) {
+            sendSecondToServer(AdjustUtil.convertIntegers(values));
+        } else {
+            mView.fadeProgressBar();
+        }
+
+    }
 
 
 }

@@ -5,6 +5,11 @@ public class SecondResponse {
     String id;
     String seconds;
 
+    public SecondResponse(String id, String seconds) {
+        this.id = id;
+        this.seconds = seconds;
+    }
+
     public String getId() {
         return id;
     }
