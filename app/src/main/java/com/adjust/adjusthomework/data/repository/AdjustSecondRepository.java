@@ -101,6 +101,8 @@ public class AdjustSecondRepository {
             @Override
             public void processFailed(int responseCode, String output) {
                 asyncResponse.processFailed(output);
+                addSecondToQueue(queueValue);
+                sendEventToServer(asyncResponse);
                 Log.e("Response Failed", Integer.toString(responseCode) + " - " + output);
             }
         });
