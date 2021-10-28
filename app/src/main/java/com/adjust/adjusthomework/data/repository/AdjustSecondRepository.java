@@ -52,7 +52,11 @@ public class AdjustSecondRepository {
     public void sendEventToServer(SecondCallback asyncResponse) {
         if (queue.size() > 0) {
             try {
-                getNetworkApiCall(asyncResponse, queue.remove()).doInWorkerThread();
+                new Handler().postDelayed(() -> {
+                    Integer value = queue.remove();
+                    set.remove(value);
+                    AdjustSecondRepository.this.getNetworkApiCall(asyncResponse, value).doInWorkerThread();
+                },5000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -89,7 +93,7 @@ public class AdjustSecondRepository {
                 try {
                     asyncResponse.processFinish(parseResponse(response), queueValue);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    asyncResponse.processFailed(e.getMessage());
                 }
                 if (queue.size() > 0) {
                     sendEventToServer(asyncResponse);

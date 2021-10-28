@@ -60,8 +60,8 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
         repository.sendSecondEvent(seconds, new SecondCallback() {
             @Override
             public void processFinish(SecondResponse output, int value) {
-                mView.showResult(output);
                 sentSeconds.add(String.valueOf(value));
+                mView.showResult(output);
             }
 
             @Override
